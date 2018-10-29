@@ -118,7 +118,7 @@
             "tel": "13113113331",
             "wechat": "wxid_jI4hDbE0c67Vl",
             "movie": 2,
-            "points": [],
+            "points": {},
             "imgdata": "data:image/png;base64,..."
         }
         ```

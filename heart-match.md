@@ -10,7 +10,7 @@
 1. 标记：上终止点及其相邻点分别为`pEndTop`和`pEndTopAdj`、下终止点及其相邻点分别为`pEndBottom`和`pEndBottomAdj`、最上点为`pTop`、最右点为`pRight`、某个点的横坐标和纵坐标的属性名分别为`x`和`y`。
 ![step2](heart-match-step2-3.png)
 1. 进行如下计算并按照如下格式传输，数据以浮点数储存：
-    ```json
+    ```
     points: {
         t_top: (pEndTopAdj.y - pEndTop.y) / (pEndTopAdj.x - pEndTop.x),
         t_bottom: (pEndBottomAdj.y - pEndBottom.y) / (pEndBottomAdj.x - pEndBottom.x),
