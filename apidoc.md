@@ -2,7 +2,7 @@
 ### 总体说明
 - 若无特殊说明，前后端交互数据类型`content-type`均用`application/json`，请求方法`method`均用`POST`。
 - 前端应在相应的时间阻止某些请求的发送，并给出相应的提示。
-- 爱心轨迹的关键数据还在考虑中。
+- 爱心轨迹的关键数据详见[爱心匹配数据采集方案](heart-match.md)。
 - 大学城高校代码映射列表：
     <table>
         <thead>
@@ -60,7 +60,7 @@
     </table>
 ### 初始化（检测是否已微信登录、完善信息并完成题目）
 - 前端示例：[2018时光胶囊的`checkLogin()`](https://github.com/651291702/bbt_timecapsule/blob/master/js/beforeLoad.js)
-- 请求路径：`api/init`
+- 请求路径：`api/init.php`
 - 返回参数：
     - 示例
         ```json
@@ -104,7 +104,7 @@
             </tbody>
         </table>
 ### 报名
-- 请求路径：`api/register`
+- 请求路径：`api/register.php`
 - 请求参数：
     - 示例：
         ```json
@@ -184,8 +184,8 @@
                 </tr>
                 <tr>
                     <td>points</td>
-                    <td>array</td>
-                    <td>爱心形状关键数据（考虑中）。</td>
+                    <td>object</td>
+                    <td>爱心形状关键数据。</td>
                 </tr>
                 <tr>
                     <td>imgdata</td>
@@ -225,7 +225,7 @@
             </tbody>
         </table>
 ### 查询
-- 请求路径：`api/query`
+- 请求路径：`api/query.php`
 - 返回参数：
     - 示例
         ```json
@@ -326,7 +326,7 @@
             </tbody>
         </table>
 ### 第二次匹配
-- 请求路径：`api/second`
+- 请求路径：`api/second.php`
 - 请求参数：
     - 示例：
         ```json
