@@ -60,7 +60,7 @@
     </table>
 ### 初始化（检测是否已微信登录、完善信息并完成题目）
 - 前端示例：[2018时光胶囊的`checkLogin()`](https://github.com/651291702/bbt_timecapsule/blob/master/js/beforeLoad.js)
-- 请求路径：`api/init.php`
+- 请求路径：`api/init`
 - 返回参数：
     - 示例
         ```json
@@ -110,7 +110,7 @@
             </tbody>
         </table>
 ### 报名
-- 请求路径：`api/register.php`
+- 请求路径：`api/register`
 - 请求参数：
     - 示例：
         ```json
@@ -146,37 +146,37 @@
                 <tr>
                     <td>name</td>
                     <td>string</td>
-                    <td>姓名。必填。</td>
+                    <td>姓名。必填。1<=name.length<=25。</td>
                 </tr>
                 <tr>
                     <td>age</td>
                     <td>int</td>
-                    <td>年龄。必填。</td>
+                    <td>年龄。必填。0<=age<=200。</td>
                 </tr>
                 <tr>
                     <td>grade</td>
                     <td>int</td>
-                    <td>年级代码。必填。</td>
+                    <td>年级代码。必填。1<=grade<=7。</td>
                 </tr>
                 <tr>
                     <td>college</td>
                     <td>int</td>
-                    <td>大学城高校代码。必填。</td>
+                    <td>大学城高校代码。必填。0<=college<=9</td>
                 </tr>
                 <tr>
                     <td>school</td>
                     <td>string</td>
-                    <td>学院名称。必填。</td>
+                    <td>学院名称。必填。1<=school.length<=40。</td>
                 </tr>
                 <tr>
                     <td>tel</td>
                     <td>string</td>
-                    <td>手机号码。必填。</td>
+                    <td>手机号码。必填。格式为/^1\d{10}$/。</td>
                 </tr>
                 <tr>
                     <td>wechat</td>
                     <td>string</td>
-                    <td>微信号。选填。</td>
+                    <td>微信号。选填。格式为/^[a-z][\w\-]{5,19}$/i。</td>
                 </tr>
                 <tr>
                     <td>tagender</td>
@@ -186,7 +186,7 @@
                 <tr>
                     <td>movie</td>
                     <td>int</td>
-                    <td>电影类型代码。</td>
+                    <td>电影类型代码。0<=movie<=4。</td>
                 </tr>
                 <tr>
                     <td>points</td>
@@ -196,7 +196,7 @@
                 <tr>
                     <td>imgdata</td>
                     <td>string</td>
-                    <td>对画有一半爱心的canvas对象调用toDataURL()方法生成的字符串。</td>
+                    <td>对画有一半爱心的canvas对象调用toDataURL()方法生成的字符串，格式为.png。</td>
                 </tr>
             </tbody>
         </table>
@@ -231,7 +231,7 @@
             </tbody>
         </table>
 ### 查询
-- 请求路径：`api/query.php`
+- 请求路径：`api/query`
 - 返回参数：
     - 示例
         ```json
@@ -332,7 +332,7 @@
             </tbody>
         </table>
 ### 第二次匹配
-- 请求路径：`api/second.php`
+- 请求路径：`api/second`
 - 请求参数：
     - 示例：
         ```json
@@ -353,7 +353,7 @@
                 <tr>
                     <td>movie</td>
                     <td>int</td>
-                    <td>电影类型代码。</td>
+                    <td>电影类型代码。0<=movie<=4。</td>
                 </tr>
             </tbody>
         </table>
