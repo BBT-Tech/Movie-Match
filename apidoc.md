@@ -67,6 +67,7 @@
         {
             "errno": 0,
             "errmsg": "",
+            "status": 1,
             "login": true,
             "reg": true
         }
@@ -90,6 +91,11 @@
                     <td>errmsg</td>
                     <td>string</td>
                     <td>错误信息。</td>
+                </tr>
+                <tr>
+                    <td>status</td>
+                    <td>int</td>
+                    <td>状态码。0表示第一次数据采集期间；1表示第一次数据匹配期间；2表示第一次结果公示及第二次数据采集期间；3表示第二次数据匹配期间；4表示第二次结果公示期间；5表示活动已过期，不允许用户操作。</td>
                 </tr>
                 <tr>
                     <td>login</td>
