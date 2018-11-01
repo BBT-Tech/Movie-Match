@@ -274,6 +274,56 @@
                     <td>string</td>
                     <td>错误信息。</td>
                 </tr>
+                <tr>
+                    <td>movie</td>
+                    <td>int</td>
+                    <td>电影类型代码。</td>
+                </tr>
+                <tr>
+                    <td>psw</td>
+                    <td>string</td>
+                    <td>取消配对密码。</td>
+                </tr>
+                <tr>
+                    <td>ta</td>
+                    <td>object或null</td>
+                    <td>当匹配成功时，类型为object，表示匹配对方的信息；否则类型为null。</td>
+                </tr>
+                <tr>
+                    <td>name</td>
+                    <td>string</td>
+                    <td>姓名。</td>
+                </tr>
+                <tr>
+                    <td>age</td>
+                    <td>int</td>
+                    <td>年龄。</td>
+                </tr>
+                <tr>
+                    <td>grade</td>
+                    <td>int</td>
+                    <td>年级代码。</td>
+                </tr>
+                <tr>
+                    <td>college</td>
+                    <td>int</td>
+                    <td>大学城高校代码。</td>
+                </tr>
+                <tr>
+                    <td>school</td>
+                    <td>string</td>
+                    <td>学院名称。</td>
+                </tr>
+                <tr>
+                    <td>tel</td>
+                    <td>string</td>
+                    <td>手机号码。</td>
+                </tr>
+                <tr>
+                    <td>wechat</td>
+                    <td>string或null</td>
+                    <td>微信号。用户未填时值为null。</td>
+                </tr>
             </tbody>
         </table>
 ### 获取图片
