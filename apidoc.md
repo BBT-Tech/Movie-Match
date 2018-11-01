@@ -123,6 +123,7 @@
             "school": "设计学院",
             "tel": "13113113331",
             "wechat": "wxid_jI4hDbE0c67Vl",
+            "tagender": 0,
             "movie": 2,
             "points": {},
             "imgdata": "data:image/png;base64,..."
@@ -240,7 +241,6 @@
             "errmsg": "",
             "self": {
                 "movie": 2,
-                "imgurl": "https://...",
                 "psw": "sF5j0U"
             },
             "ta": {
@@ -274,60 +274,64 @@
                     <td>string</td>
                     <td>错误信息。</td>
                 </tr>
+            </tbody>
+        </table>
+### 获取图片
+- 请求路径：`api/image`
+- 请求方法：`GET`
+### 取消第一次匹配
+- 请求路径：`api/cancel`
+- 请求参数：
+    - 示例
+        ```json
+        {
+            "psw": "c6US9i"
+        }
+        ```
+    - 说明
+        <table>
+            <thead>
                 <tr>
-                    <td>movie</td>
-                    <td>int</td>
-                    <td>电影类型代码。</td>
+                    <th>参数名称</th>
+                    <th>参数类型</th>
+                    <th>参数说明</th>
                 </tr>
-                <tr>
-                    <td>imgurl</td>
-                    <td>string</td>
-                    <td>图片地址。</td>
-                </tr>
+            </thead>
+            <tbody>
                 <tr>
                     <td>psw</td>
                     <td>string</td>
                     <td>取消配对密码。</td>
                 </tr>
+            </tbody>
+        </table>
+- 返回参数：
+    - 示例
+        ```json
+        {
+            "errno": 0,
+            "errmsg": ""
+        }
+        ```
+    - 说明
+        <table>
+            <thead>
                 <tr>
-                    <td>ta</td>
-                    <td>object或null</td>
-                    <td>当匹配成功时，类型为object，表示匹配对方的信息；否则类型为null。</td>
+                    <th>参数名称</th>
+                    <th>参数类型</th>
+                    <th>参数说明</th>
                 </tr>
+            </thead>
+            <tbody>
                 <tr>
-                    <td>name</td>
-                    <td>string</td>
-                    <td>姓名。</td>
-                </tr>
-                <tr>
-                    <td>age</td>
+                    <td>errno</td>
                     <td>int</td>
-                    <td>年龄。</td>
+                    <td>错误码。0代表正常，非0代表意外错误。</td>
                 </tr>
                 <tr>
-                    <td>grade</td>
-                    <td>int</td>
-                    <td>年级代码。</td>
-                </tr>
-                <tr>
-                    <td>college</td>
-                    <td>int</td>
-                    <td>大学城高校代码。</td>
-                </tr>
-                <tr>
-                    <td>school</td>
+                    <td>errmsg</td>
                     <td>string</td>
-                    <td>学院名称。</td>
-                </tr>
-                <tr>
-                    <td>tel</td>
-                    <td>string</td>
-                    <td>手机号码。</td>
-                </tr>
-                <tr>
-                    <td>wechat</td>
-                    <td>string或null</td>
-                    <td>微信号。用户未填时值为null。</td>
+                    <td>错误信息。</td>
                 </tr>
             </tbody>
         </table>
