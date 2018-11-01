@@ -243,6 +243,7 @@
                 "movie": 2,
                 "psw": "sF5j0U"
             },
+            "matching": true,
             "ta": {
                 "name": "李四",
                 "age": 19,
@@ -283,6 +284,11 @@
                     <td>psw</td>
                     <td>string</td>
                     <td>取消配对密码。</td>
+                </tr>
+                <tr>
+                    <td>matching</td>
+                    <td>bool</td>
+                    <td>提示是否显示正在匹配。</td>
                 </tr>
                 <tr>
                     <td>ta</td>
