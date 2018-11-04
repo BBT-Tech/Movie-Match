@@ -51,7 +51,7 @@ class RegisterController extends Controller {
         $user->p_top = new Point($req->points['p_top']['y'], $req->points['p_top']['x']);
         $user->p_right = new Point($req->points['p_right']['y'], $req->points['p_right']['x']);
         $user->match_status = 0;
-        $user->psw = genaratePassword();
+        $user->psw = generatePassword();
         if (!$user->save()) {
             return [
                 'errno' => 501,

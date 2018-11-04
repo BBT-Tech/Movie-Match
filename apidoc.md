@@ -243,7 +243,7 @@
                 "movie": 2,
                 "psw": "sF5j0U"
             },
-            "matching": true,
+            "status": 0,
             "ta": {
                 "name": "李四",
                 "age": 19,
@@ -286,9 +286,9 @@
                     <td>取消配对密码。</td>
                 </tr>
                 <tr>
-                    <td>matching</td>
-                    <td>bool</td>
-                    <td>提示是否显示正在匹配。</td>
+                    <td>status</td>
+                    <td>int</td>
+                    <td>匹配状态。0表示匹配成功；1表示匹配失败；2表示匹配正在进行。</td>
                 </tr>
                 <tr>
                     <td>ta</td>
@@ -332,8 +332,11 @@
                 </tr>
             </tbody>
         </table>
-### 获取图片
-- 请求路径：`api/image`
+### 获取自己的图片
+- 请求路径：`api/image/self`
+- 请求方法：`GET`
+### 获取匹配对方的图片
+- 请求路径：`api/image/ta`
 - 请求方法：`GET`
 ### 取消第一次匹配
 - 请求路径：`api/cancel`

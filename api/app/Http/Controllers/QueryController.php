@@ -39,10 +39,18 @@ class QueryController extends Controller {
                 ->first();
         }
 
+        if ($matching) {
+            $status_rtn = 2;
+        } else if ($status <= 0) {
+            $status_rtn = 1;
+        } else {
+            $status_rtn = 0;
+        }
+
         return [
             'errno' => 0,
             'ermsg' => '',
-            'matching' => $matching,
+            'status' => $status_rtn,
             'self' => $selfInfo,
             'ta' => $taInfo
         ];

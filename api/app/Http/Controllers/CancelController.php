@@ -42,9 +42,9 @@ class CancelController extends Controller {
         }
 
         $self->match_status = -1;
-        $self->psw = genaratePassword();
+        $self->psw = generatePassword();
         $ta->match_status = -1;
-        $ta->psw = genaratePassword();
+        $ta->psw = generatePassword();
 
         DB::beginTransaction();
         if ($self->save() && $ta->save()) {

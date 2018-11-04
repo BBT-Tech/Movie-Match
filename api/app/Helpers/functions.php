@@ -24,6 +24,11 @@ function timeJudge() {
     return 0;
 }
 
-function genaratePassword() {
-    return strtoupper(substr(hash('sha256', mt_rand()), mt_rand(0, 56), 6));
+function generatePassword() {
+    // return strtoupper(substr(hash('sha256', mt_rand()), mt_rand(0, 56), 6));
+    $set = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    for ($i = 0, $psw = ''; $i < 6; $i++) {
+        $psw .= $set[mt_rand(0, 35)];
+    }
+    return $psw;
 }

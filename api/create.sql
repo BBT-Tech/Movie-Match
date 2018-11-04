@@ -1,6 +1,6 @@
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `openid` char(42) CHARACTER SET utf8mb4 NOT NULL,
+  `openid` char(28) CHARACTER SET utf8mb4 NOT NULL,
   `gender` tinyint(4) NOT NULL,
   `name` varchar(20) CHARACTER SET utf8mb4 NOT NULL,
   `age` tinyint(4) NOT NULL,
@@ -28,8 +28,8 @@ CREATE TABLE `match_first` (
   `self` int(11) NOT NULL,
   `ta` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  CONSTRAINT `a_1` FOREIGN KEY (`self`) REFERENCES `users` (`id`),
-  CONSTRAINT `b_1` FOREIGN KEY (`ta`) REFERENCES `users` (`id`)
+  CONSTRAINT `self_1` FOREIGN KEY (`self`) REFERENCES `users` (`id`),
+  CONSTRAINT `ta_1` FOREIGN KEY (`ta`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `match_second` (
@@ -37,6 +37,6 @@ CREATE TABLE `match_second` (
   `self` int(11) NOT NULL,
   `ta` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  CONSTRAINT `a_2` FOREIGN KEY (`self`) REFERENCES `users` (`id`),
-  CONSTRAINT `b_2` FOREIGN KEY (`ta`) REFERENCES `users` (`id`)
+  CONSTRAINT `self_2` FOREIGN KEY (`self`) REFERENCES `users` (`id`),
+  CONSTRAINT `ta_2` FOREIGN KEY (`ta`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

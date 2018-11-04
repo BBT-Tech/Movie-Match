@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Storage;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,9 +11,15 @@ use Illuminate\Support\Facades\Storage;
 |
 */
 
-
-
 Route::middleware('web')->group(function () {
+    // Route::get('inject/{id}', function ($id) {
+    //     $_SESSION['openid'] = $id;
+    // }); // 注入session
+    // Route::prefix('test')->group(function () {
+    //     Route::post('inject/{num}', 'TestController@inject'); // 注入num条随机数据
+    //     Route::post('match1', 'TestController@match1'); // 进行第一次匹配
+    //     Route::post('match2', 'TestController@match2'); // 进行第二次匹配
+    // });
     Route::post('init', 'InitController');
     Route::middleware('login')->group(function () {
         Route::post('register', 'RegisterController@first')
@@ -25,9 +29,9 @@ Route::middleware('web')->group(function () {
             ->middleware('validate:cancel');
         Route::post('second', 'RegisterController@second')
             ->middleware('validate:second');
-        Route::get('image', function () {
-            return response(Storage::get('heart/' . $_SESSION['openid'] . '.png'))
-                ->header('Content-type', 'image/png');
+        Route::prefix('image')->group(function () {
+            Route::get('self', 'ImageController@self');
+            Route::get('ta', 'ImageController@ta');
         });
     });
 });
