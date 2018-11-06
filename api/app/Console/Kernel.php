@@ -58,9 +58,9 @@ class Kernel extends ConsoleKernel
                     "id, match_status, (
                         st_distance(p_top, $userAPointTop)
                         + st_distance(p_right, $userAPointRight)
-                        + abs(t_top - $userATanTop) / 100
+                        + abs(t_top - $userATanTop)
                         + abs(t_bottom - $userATanBottom)
-                        + abs(h_end_top - $userAHeightEndTop)
+                        + abs(h_end_top - $userAHeightEndTop) / 100
                     ) as distance"
                 ))->where([
                     ['id', '>=', $pos],
@@ -125,9 +125,9 @@ class Kernel extends ConsoleKernel
                     "id, match_status, (
                         st_distance(p_top, $userAPointTop)
                         + st_distance(p_right, $userAPointRight)
-                        + abs(t_top - $userATanTop) / 100
+                        + abs(t_top - $userATanTop)
                         + abs(t_bottom - $userATanBottom)
-                        + abs(h_end_top - $userAHeightEndTop)
+                        + abs(h_end_top - $userAHeightEndTop) / 100
                     ) as distance"
                 ))->where([
                     ['id', '>=', $pos],

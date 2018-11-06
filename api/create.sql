@@ -8,7 +8,7 @@ CREATE TABLE `users` (
   `college` tinyint(4) NOT NULL,
   `school` varchar(50) CHARACTER SET utf8mb4 NOT NULL,
   `tel` char(11) CHARACTER SET utf8mb4 NOT NULL,
-  `wechat` char(30) CHARACTER SET utf8mb4 NOT NULL,
+  `wechat` char(30) CHARACTER SET utf8mb4,
   `tagender` tinyint(4) NOT NULL,
   `movie` tinyint(4) NOT NULL,
   `t_top` double NOT NULL,
