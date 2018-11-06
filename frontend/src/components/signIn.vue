@@ -1,5 +1,6 @@
 <template>
   <div class="signIn">
+    <div class="background-fix"></div>
     <div class="title">报名表</div>
     <div class="input-item">
       <span>姓名</span>
@@ -62,9 +63,10 @@
     </div>
     <div :class="errGrade ? 'error' : 'correct'">请选择年级</div>
     <div class="input-item">
-      <span>微信（选填）</span>
-      <input placeholder="请输入" type="text" maxlength="24" v-model="wechatID">
+      <span>微信</span>
+      <input placeholder="选填" type="text" maxlength="24" v-model="wechatID">
     </div>
+    <div :class="errWechatID ? 'error' : 'correct'">请检查微信号是否正确</div>
     <div class="next" @click="handleSubmit()"></div>
   </div>
 </template>
@@ -89,6 +91,7 @@ export default {
       errSchool: false,
       errCollege: false,
       errGrade: false,
+      errWechatID: false,
     };
   },
   beforeRouteEnter(to, from, next) {
@@ -106,14 +109,20 @@ export default {
       // 判断报名信息是否正确
       if (this.studentName === '') this.errName = true;
       if (this.sex === '') this.errSex = true;
-      if (this.age === '' || this.age <= 0 || this.age > 200) { this.age = ''; this.errAge = true; }
+      if (this.age === '' || !(/^\d{1,2}$/.test(this.age)) || this.age <= 0 || this.age > 200) {
+        this.errAge = true;
+      }
       if (this.phoneNumber === '' || !(/^1\d{10}$/.test(this.phoneNumber))) {
-        this.phoneNumber = '';
         this.errPhone = true;
       }
       if (this.college === '' || this.college > 40) this.errCollege = true;
       if (this.school === '') this.errSchool = true;
       if (this.grade === '') this.errGrade = true;
+      this.errWechatID = !(/^[a-z][\w-]{5,19}$/i.test(this.wechatID));
+      if (/^\s*$/.test(this.wechatID)) {
+        this.wechatID = '';
+        this.errWechatID = false;
+      }
       // 把报名信息存入全局变量
       this.global.signIn.gender = this.sex;
       this.global.signIn.name = this.studentName;
@@ -125,7 +134,7 @@ export default {
       this.global.signIn.wechat = this.wechatID;
       // 判断跳转
       if (!(this.errAge || this.errPhone || this.errSchool || this.errCollege ||
-        this.errGrade || this.errName || this.errSex) && (this.sex !== '' ||
+        this.errGrade || this.errName || this.errSex || this.errWechatID) && (this.sex !== '' ||
           this.studentName !== '' || this.age !== '' || this.grade !== '' ||
             this.college !== '' || this.school !== '' || this.phoneNumber !== '')) {
         this.$route.meta.filled = true;
@@ -162,12 +171,20 @@ export default {
 <style scoped>
 .signIn {
   position: absolute;
-  height: 100%;
   width: 100%;
-  background: url(../assets/background3.png) no-repeat top;
-  background-size: cover;
   color: #fefdfb;
   font-family: 'Microsoft YaHei';
+}
+
+.background-fix {
+  position: fixed;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url(../assets/background3.png) no-repeat top;
+  background-size: cover;
 }
 
 .title {
@@ -183,6 +200,7 @@ export default {
   padding: 2vw 0 2vw 15vw;
   width: 85vw;
   display: flex;
+  font-size: 1.1em;
 }
 
 .special {
@@ -198,11 +216,21 @@ input, select {
   -moz-appearance: none;
   position: relative;
   top: 2px;
+  font-size: 1em;
+}
+
+select {
+  transform: translateY(-2px);
+}
+
+input::-webkit-input-placeholder {
+  color: #80798b;
+  font-size: 1em;
 }
 
 .error {
   height: 2vw;
-  font-size: 2vw;
+  font-size: 0.8em;
   color: #c53448;
   display: flex;
   padding-left: 15vw;
@@ -223,10 +251,4 @@ input, select {
   background-size: contain;
   margin: 0 auto;
 }
-
-/* @media screen and (max-height: 400px) {
-  .title {
-    padding: 2.7em 0 1.35em 15vw;
-  }
-} */
 </style>

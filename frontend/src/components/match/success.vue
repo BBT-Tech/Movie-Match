@@ -1,6 +1,6 @@
 <template>
   <div class="success">
-    <div class="msg">配对结果将在{{$route.params.date}}公布，<br>请自行查询</div>
+    <div class="msg">配对结果将在{{$route.params.date}}公布，<br>请自行查询喔，<br>期待11.17雕刻盛典见到你～</div>
     <!--div>//报名资料{{global.signIn}}</div-->
   </div>
 </template>

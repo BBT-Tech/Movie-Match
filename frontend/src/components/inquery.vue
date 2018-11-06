@@ -14,10 +14,13 @@
     </div>
     <div>
       <div class="know" v-if="matched" @click="know"></div>
-      <router-link v-if="matched" to="/cancel">取消配对</router-link>
+      <router-link
+        v-if="matched && timeCmp(global.matchTime.cancelEndTime) > 0"
+        to="/cancel"
+      >取消配对</router-link>
     </div>
     <div v-if="!matched" class="fail">
-      <span v-if="matching">匹配中!</span>
+      <span v-if="matching">匹配结果将在{{date}}公布</span>
       <div class="second" v-if="!matching" @click="second"></div>
     </div>
   </div>
@@ -28,7 +31,6 @@ export default {
   name: 'inquery',
   data() {
     return {
-      status: 0,
       movie: '',
       response: '',
       matched: false,
@@ -43,18 +45,7 @@ export default {
       this.movie = [
         '动画片', '恐怖片', '科幻动作片', '爱情片', '剧情片',
       ][this.global.inqueryMsg.self.movie];
-      this.status = this.global.inqueryMsg.status;
-    },
-    know() {
-      this.$router.push({ name: 'know' });
-    },
-    second() {
-      this.$router.push({ name: 'second' });
-    },
-  },
-  watch: {
-    status(value) {
-      switch (value) {
+      switch (this.global.inqueryMsg.status) {
         case 0:
           this.response = '配对成功！你们的爱心轨迹是：';
           this.matched = true;
@@ -73,6 +64,40 @@ export default {
         default:
           break;
       }
+    },
+    know() {
+      this.$router.push({ name: 'know' });
+    },
+    second() {
+      this.$router.push({ name: 'second' });
+    },
+    timeCmp(datetime) {
+      let now = new Date();
+      let comparison = [
+        [datetime.slice(0, 4), now.getFullYear()],
+        [datetime.slice(5, 7), now.getMonth() + 1],
+        [datetime.slice(8, 10), now.getDate()],
+        [datetime.slice(11, 13), now.getHours()],
+        [datetime.slice(14, 16), now.getMinutes()],
+        [datetime.slice(17, 19), now.getSeconds()],
+      ];
+      for (let i = 0; i < 6; i += 1) {
+        comparison[i][0] = Number(comparison[i][0]);
+        if (comparison[i][0] !== comparison[i][1]) {
+          return comparison[i][0] - comparison[i][1];
+        }
+      }
+      return 0;
+    },
+  },
+  computed: {
+    date() {
+      if (this.$route.meta.status < 2) {
+        return this.global.matchTime.firstW;
+      } else if (this.$route.meta.status < 4) {
+        return this.global.matchTime.secondW;
+      }
+      return '';
     },
   },
 };

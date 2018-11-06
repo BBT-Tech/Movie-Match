@@ -109,61 +109,104 @@ export default {
       const pointsLength = this.allPoints.length;
       // 判断上下终止点后给其余点赋值
       if (this.flag === true) {
-        if (this.allPoints[0].y < this.allPoints[pointsLength - 1].y) {
+        if (pointsLength === 1) {
           this.point.pEndTop.x = this.allPoints[0].x;
           this.point.pEndTop.y = this.allPoints[0].y;
-          this.point.pEndTopAdj.x = this.allPoints[1].x;
-          this.point.pEndTopAdj.y = this.allPoints[1].y;
-          this.point.pEndBottom.x = this.allPoints[pointsLength - 2].x;
-          this.point.pEndBottom.y = this.allPoints[pointsLength - 2].y;
-          this.point.pEndBottomAdj.x = this.allPoints[pointsLength - 3].x;
-          this.point.pEndBottomAdj.y = this.allPoints[pointsLength - 3].y;
-        } else {
-          this.point.pEndTop.x = this.allPoints[pointsLength - 2].x;
-          this.point.pEndTop.y = this.allPoints[pointsLength - 2].y;
-          this.point.pEndTopAdj.x = this.allPoints[pointsLength - 3].x;
-          this.point.pEndTopAdj.y = this.allPoints[pointsLength - 3].y;
+          this.point.pEndTopAdj.x = this.allPoints[0].x;
+          this.point.pEndTopAdj.y = this.allPoints[0].y;
           this.point.pEndBottom.x = this.allPoints[0].x;
           this.point.pEndBottom.y = this.allPoints[0].y;
-          this.point.pEndBottomAdj.x = this.allPoints[1].x;
-          this.point.pEndBottomAdj.y = this.allPoints[1].y;
+          this.point.pEndBottomAdj.x = this.allPoints[0].x;
+          this.point.pEndBottomAdj.y = this.allPoints[0].y;
+        } else {
+          if (this.allPoints[0].y < this.allPoints[pointsLength - 1].y) {
+            this.point.pEndTop.x = this.allPoints[0].x;
+            this.point.pEndTop.y = this.allPoints[0].y;
+            this.point.pEndTopAdj.x = this.allPoints[1].x;
+            this.point.pEndTopAdj.y = this.allPoints[1].y;
+            this.point.pEndBottom.x = this.allPoints[pointsLength - 1].x;
+            this.point.pEndBottom.y = this.allPoints[pointsLength - 1].y;
+            this.point.pEndBottomAdj.x = this.allPoints[pointsLength - 2].x;
+            this.point.pEndBottomAdj.y = this.allPoints[pointsLength - 2].y;
+          } else {
+            this.point.pEndTop.x = this.allPoints[pointsLength - 1].x;
+            this.point.pEndTop.y = this.allPoints[pointsLength - 1].y;
+            this.point.pEndTopAdj.x = this.allPoints[pointsLength - 2].x;
+            this.point.pEndTopAdj.y = this.allPoints[pointsLength - 2].y;
+            this.point.pEndBottom.x = this.allPoints[0].x;
+            this.point.pEndBottom.y = this.allPoints[0].y;
+            this.point.pEndBottomAdj.x = this.allPoints[1].x;
+            this.point.pEndBottomAdj.y = this.allPoints[1].y;
+          }
+          this.global.signIn.points = [];
+          this.global.signIn.points = {
+            t_top: Math.atan((this.point.pEndTopAdj.y - this.point.pEndTop.y) /
+              (this.point.pEndTopAdj.x - this.point.pEndTop.x)),
+            t_bottom: Math.atan((this.point.pEndBottomAdj.y - this.point.pEndBottom.y) /
+              (this.point.pEndBottomAdj.x - this.point.pEndBottom.x)),
+            h_end_top: this.point.pEndBottom.y - this.point.pEndTop.y,
+            p_top: {
+              x: (this.point.pTop.x - this.point.pEndBottom.x) /
+                (this.point.pEndBottom.y - this.point.pEndTop.y),
+              y: (this.point.pTop.y - this.point.pEndBottom.y) /
+                (this.point.pEndBottom.y - this.point.pEndTop.y),
+            },
+            p_right: {
+              x: (this.point.pLeft.x - this.point.pEndBottom.x) /
+                (this.point.pEndBottom.y - this.point.pEndTop.y),
+              y: (this.point.pLeft.y - this.point.pEndBottom.y) /
+                (this.point.pEndBottom.y - this.point.pEndTop.y),
+            },
+          };
         }
-        this.global.signIn.points = [];
-        this.global.signIn.points = {
-          t_top: Math.atan((this.point.pEndTopAdj.y - this.point.pEndTop.y) /
-            (this.point.pEndTopAdj.x - this.point.pEndTop.x)),
-          t_bottom: Math.atan((this.point.pEndBottomAdj.y - this.point.pEndBottom.y) /
-            (this.point.pEndBottomAdj.x - this.point.pEndBottom.x)),
-          h_end_top: this.point.pEndBottom.y - this.point.pEndTop.y,
-          p_top: {
-            x: (this.point.pTop.x - this.point.pEndBottom.x) /
-              (this.point.pEndBottom.y - this.point.pEndTop.y),
-            y: (this.point.pTop.y - this.point.pEndBottom.y) /
-              (this.point.pEndBottom.y - this.point.pEndTop.y),
-          },
-          p_right: {
-            x: (this.point.pLeft.x - this.point.pEndBottom.x) /
-              (this.point.pEndBottom.y - this.point.pEndTop.y),
-            y: (this.point.pLeft.y - this.point.pEndBottom.y) /
-              (this.point.pEndBottom.y - this.point.pEndTop.y),
-          },
-        };
       }
       this.flag = false;
     },
     done() {
-      const imgData = draw.canvas.toDataURL('image/png');
-      this.global.signIn.imgdata = imgData;
-      this.axios.post('api/register',
-        this.global.signIn).then((response) => {
-        const reciveData = response.data;
-        if (reciveData.errno === 0) {
-          this.$route.meta.reg = true;
-          this.$router.push({ name: 'success', params: { date: '11月9日' } });
-        } else {
-          this.tips = reciveData.errmsg;
-        }
-      });
+      let judgeHeart = true;
+      if (this.global.signIn.points.t_top.x === -Infinity ||
+            this.global.signIn.points.t_bottom.x === -Infinity ||
+              this.global.signIn.points.h_end_top.x === -Infinity ||
+                this.global.signIn.points.p_top.x === -Infinity ||
+                  this.global.signIn.points.p_right.x === -Infinity ||
+                    this.global.signIn.points.t_top.y === -Infinity ||
+                      this.global.signIn.points.t_bottom.y === -Infinity ||
+                        this.global.signIn.points.h_end_top.y === -Infinity ||
+                          this.global.signIn.points.p_top.y === -Infinity ||
+                            this.global.signIn.points.p_right.y === -Infinity
+      ) judgeHeart = false;
+      if (this.global.signIn.points.t_top.x === -Infinity ||
+            this.global.signIn.points.t_bottom.x === Infinity ||
+              this.global.signIn.points.h_end_top.x === Infinity ||
+                this.global.signIn.points.p_top.x === Infinity ||
+                  this.global.signIn.points.p_right.x === Infinity ||
+                    this.global.signIn.points.t_top.y === Infinity ||
+                      this.global.signIn.points.t_bottom.y === Infinity ||
+                        this.global.signIn.points.h_end_top.y === Infinity ||
+                          this.global.signIn.points.p_top.y === Infinity ||
+                            this.global.signIn.points.p_right.y === Infinity
+      ) judgeHeart = false;
+      if (judgeHeart) {
+        const imgData = draw.canvas.toDataURL('image/png');
+        this.global.signIn.imgdata = imgData;
+        this.axios.post('api/register',
+          this.global.signIn).then((response) => {
+          const reciveData = response.data;
+          if (reciveData.errno === 0) {
+            this.$route.meta.reg = true;
+            this.$router.push({
+              name: 'success',
+              params: {
+                date: this.global.matchTime.firstN,
+              },
+            });
+          } else {
+            this.tips = reciveData.errmsg;
+          }
+        });
+      } else {
+        this.tips = '这个爱心有点不走心哦，重新画一个吧-.-';
+      }
     },
     restart() {
       draw.context.clearRect(0, 0, 120, 240);

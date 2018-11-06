@@ -20,6 +20,9 @@ router.beforeEach((() => {
   return (to, from, next) => {
     if (!isChecked) {
       isChecked = true;
+      // 注入session测试
+      // axios.get('api/inject/xxxx')
+      //   .then(() => axios.post('api/init'))
       axios.post('api/init')
         .then((data) => {
           data = data.data;
@@ -30,7 +33,7 @@ router.beforeEach((() => {
             to.meta.login = data.login;
             to.meta.reg = data.reg;
           } else {
-            location.href = `https://hemc.100steps.net/2017/wechat/Home/Index/index?state=${encodeURIComponent(location.href)}`;
+            location.href = `https://hemc.100steps.net/2018/fireman/auth.php?state=123&redirect=${encodeURIComponent('https://hemc.100steps.net/2018/movie-matching/api/login')}`;
           }
           next();
         });

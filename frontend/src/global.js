@@ -28,9 +28,18 @@ const userStatus = {
   reg: false,
 };
 
+const matchTime = {
+  firstN: '11.9',
+  firstW: '11月9日',
+  secondN: '11.15',
+  secondW: '11月15日',
+  cancelEndTime: '2018-11-13 00:00:00',
+};
+
 export default {
   signIn,
   answer,
   userStatus,
   inqueryMsg: null,
+  matchTime,
 };

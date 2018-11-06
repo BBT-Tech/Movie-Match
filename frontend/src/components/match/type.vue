@@ -54,7 +54,12 @@ export default {
         }).then((response) => {
           const data = response.data;
           if (data.errno === 0) {
-            this.$router.push({ name: 'success', params: { date: '11月15日' } });
+            this.$router.push({
+              name: 'success',
+              params: {
+                date: this.global.matchTime.secondN,
+              },
+            });
           } else {
             this.errMsg = data.errmsg;
           }

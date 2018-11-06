@@ -2,29 +2,33 @@
   <div class="know">
     <div class="title">了解一下Ta</div>
     <div class="result">
-      <span>姓名：</span><span>{{name}}</span>
+      <span>姓名：{{name}}</span>
     </div>
     <div class="result">
-      <span>年龄：</span><span>{{age}}</span>
+      <span>年龄：{{age}}</span>
     </div>
     <div class="result">
-      <span>学校：</span><span>{{college}}</span>
+      <span>学校：{{college}}</span>
     </div>
     <div class="result">
-      <span>学院：</span><span>{{school}}</span>
+      <span>学院：{{school}}</span>
     </div>
     <div class="result">
-      <span>年级：</span><span>{{grade}}</span>
+      <span>年级：{{grade}}</span>
     </div>
     <div class="result">
-      <span>手机：</span><span>{{phone}}</span>
+      <span>手机：{{phone}}</span>
     </div>
-    <div class="result" v-clipboard:copy="wechatNumber">
-      <span>微信号(点击复制)：</span>
-      <button class="copy"
+    <div
+      v-if="wechatNumber !== null"
+      class="result"
       v-clipboard:copy="wechatNumber"
-      v-clipboard:success="onCopy"
-      v-clipboard:error="onError">{{wechatNumber}}</button>
+    >
+      <span>微信号(点击复制)：</span><button class="copy"
+        v-clipboard:copy="wechatNumber"
+        v-clipboard:success="onCopy"
+        v-clipboard:error="onError"
+      >{{wechatNumber}}</button>
     </div>
     <div class="back" @click="back()"></div>
     <div class="response">{{response}}</div>
@@ -37,13 +41,13 @@ export default {
   name: 'know',
   data() {
     return {
-      name: this.inqueryMsg.ta.name,
-      age: this.inqueryMsg.ta.age,
-      school: this.inqueryMsg.ta.school,
-      college: this.inqueryMsg.ta.college,
-      grade: this.inqueryMsg.ta.grade,
-      phone: this.inqueryMsg.ta.tel,
-      wechatNumber: this.inqueryMsg.ta.wechat,
+      name: this.global.inqueryMsg.ta.name,
+      age: this.global.inqueryMsg.ta.age,
+      school: this.global.inqueryMsg.ta.school,
+      college: this.global.inqueryMsg.ta.college,
+      grade: this.global.inqueryMsg.ta.grade,
+      phone: this.global.inqueryMsg.ta.tel,
+      wechatNumber: this.global.inqueryMsg.ta.wechat,
       response: '',
     };
   },
@@ -89,11 +93,14 @@ export default {
 .copy {
   border: none;
   background: transparent;
-  padding-top: 2px;
+  padding: 0;
   font-size: 1em;
   color: #fefdfb;
+  max-width: 30vw;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-
 
 .back {
   width: 40vw;
