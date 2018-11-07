@@ -12,8 +12,8 @@
 1. 进行如下计算并按照如下格式传输，数据以浮点数储存：
     ```
     points: {
-        t_top: (pEndTopAdj.y - pEndTop.y) / (pEndTopAdj.x - pEndTop.x),
-        t_bottom: (pEndBottomAdj.y - pEndBottom.y) / (pEndBottomAdj.x - pEndBottom.x),
+        t_top: Math.atan((pEndTopAdj.y - pEndTop.y) / (pEndTopAdj.x - pEndTop.x)),
+        t_bottom: Math.atan((pEndBottomAdj.y - pEndBottom.y) / (pEndBottomAdj.x - pEndBottom.x)),
         h_end_top: pEndBottom.y - pEndTop.y,
         p_top: {
             x: (pTop.x - pEndBottom.x) / (pEndBottom.y - pEndTop.y),

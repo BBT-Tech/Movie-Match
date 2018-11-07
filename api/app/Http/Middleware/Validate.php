@@ -17,7 +17,9 @@ class Validate {
             'tel' => ['required', 'string', 'regex:/^1\d{10}$/'],
             'wechat' => ['nullable', 'string', 'regex:/^[a-z][\w\-]{5,19}$/i'],
             'tagender' => 'required|integer|between:0,1',
-            'movie' => 'required|integer|between:0,4',
+            'movie' => 'required|integer|between:0,4'
+        ],
+        'heart' => [
             'points' => 'required|array',
             'points.t_top' => 'required|numeric',
             'points.t_bottom' => 'required|numeric',
@@ -38,8 +40,17 @@ class Validate {
         if ($validator->fails()) {
             return response([
                 'errno' => 200,
-                'errmsg' => '数据格式存在错误。'
+                'errmsg' => '前面填写数据的格式存在错误噢。'
             ]);
+        }
+        if ($option === 'register') {
+            $validator = Validator::make($request->all(), self::$validList['heart']);
+            if ($validator->fails()) {
+                return response([
+                    'errno' => 210,
+                    'errmsg' => '这个爱心有点不走心哦，重新画一个吧-.-。'
+                ]);
+            }
         }
         return $next($request);
     }
