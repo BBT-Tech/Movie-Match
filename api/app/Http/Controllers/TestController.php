@@ -93,7 +93,7 @@ class TestController extends Controller {
                     $query->where('gender', '<', $userA->gender)
                     ->where('age', '<=', $userA->age);
                 });
-            })->orderBy('distance', 'desc')
+            })->orderBy('distance', 'asc')
             ->orderBy('created_at', 'asc')
             ->first();
 
@@ -161,7 +161,8 @@ class TestController extends Controller {
                     $query->where('gender', '<', $userA->gender)
                     ->where('age', '<=', $userA->age);
                 });
-            })->orderBy('created_at', 'asc')
+            })->orderBy('distance', 'asc')
+            ->orderBy('created_at', 'asc')
             ->first();
 
             if ($userB) {
@@ -176,5 +177,84 @@ class TestController extends Controller {
             }
 
         }
+    }
+
+    public function match1Image(Request $req) {
+        $couple = Match1::offset((int)$req->cou * 2)
+        ->limit(1)
+        ->first();
+        if (!$couple) {
+            return [
+                'status' => 0
+            ];
+        }
+        $userAId = $couple->self;
+        // return $couple->self;
+
+        $userA = User::find($userAId);
+        if (!$userA) {
+            return [
+                'status' => 0
+            ];
+        }
+
+        $pos = $couple->ta;
+
+        $userAPointTop = 'point('
+        . $userA->p_top->getLng() . ','
+        . $userA->p_top->getLat() . ')';
+        $userAPointRight = 'point('
+        . $userA->p_right->getLng() . ','
+        . $userA->p_right->getLat() . ')';
+        $userATanTop = $userA->t_top;
+        $userATanBottom = $userA->t_bottom;
+        $userAHeightEndTop = $userA->h_end_top;
+
+        $userB = User::select(DB::raw(
+            "id, openid, gender, (
+                st_distance(p_top, $userAPointTop)
+                + st_distance(p_right, $userAPointRight)
+                + abs(t_top - $userATanTop)
+                + abs(t_bottom - $userATanBottom)
+                + abs(h_end_top - $userAHeightEndTop) / 100
+            ) as distance"
+        ))->where([
+            ['id', '>=', $pos],
+            ['gender', $userA->tagender],
+            ['tagender', $userA->gender],
+            ['movie', $userA->movie]
+        ])->where(function ($query) use ($userA) {
+            $query->where('gender', $userA->gender)
+            ->orWhere(function ($query) use ($userA) {
+                $query->where('gender', '>', $userA->gender)
+                ->where('age', '>=', $userA->age);
+            })->orWhere(function ($query) use ($userA) {
+                $query->where('gender', '<', $userA->gender)
+                ->where('age', '<=', $userA->age);
+            });
+        })->orderBy('distance', 'asc')
+        ->orderBy('created_at', 'asc')
+        ->offset($req->can)
+        ->limit(1)
+        ->first();
+        
+        if ($userB) {
+            $userAImg = base64_encode(Storage::get('heart/' . $userA->openid . '.png'));
+            $userBImg = base64_encode(Storage::get('heart/' . $userB->openid . '.png'));
+            return [
+                'status' => 1,
+                'id_l' => $userA->id,
+                'id_r' => $userB->id,
+                'gender_l' => $userA->gender,
+                'gender_r' => $userB->gender,
+                'img_l' => "data:image/png;base64,$userAImg",
+                'img_r' => "data:image/png;base64,$userBImg",
+            ];
+        } else {
+            return [
+                'status' => 0
+            ];
+        }
+
     }
 }

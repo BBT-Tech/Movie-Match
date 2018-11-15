@@ -21,7 +21,7 @@ router.beforeEach((() => {
     if (!isChecked) {
       isChecked = true;
       // 注入session测试
-      // axios.get('api/inject/xxxx')
+      // axios.get('api/inject/4Y0UUI')
       //   .then(() => axios.post('api/init'))
       axios.post('api/init')
         .then((data) => {

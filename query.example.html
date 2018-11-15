@@ -1,0 +1,296 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>爱心匹配</title>
+
+<div class="query">
+    <div class="background"></div>
+    <div class="blank"></div>
+    <div class="matchImg">
+        <div class="id" id="id-l">0</div>
+        <div class="id" id="id-r">0</div>
+        <div class="leftImg">
+            <img id="img-l">
+        </div>
+        <div class="rightImg">
+            <img id="img-r">
+        </div>
+    </div>
+    <div class="input-box">
+        <div class="input-title">couple offset</div>
+        <div class="input-ln"><span
+            id="sym-minus-cou"
+            class="sym-button"
+        >－</span><input
+            type="number"
+            id="cou"
+            value="0"
+        ><span
+            id="sym-plus-cou"
+            class="sym-button"
+        >＋</span></div>
+    </div>
+    <div class="input-box">
+        <div class="input-title">candidate offset</div>
+        <div class="input-ln"><span
+            id="sym-minus-can"
+            class="sym-button"
+        >－</span><input
+            type="number"
+            id="can"
+            value="0"
+        ><span
+            id="sym-plus-can"
+            class="sym-button"
+        >＋</span></div>
+    </div>
+    <div class="button" id="button">
+        <div class="text">query</div>
+    </div>
+    <div class="blank"></div>
+</div>
+
+<script>
+    const password = 'password-example';
+    const api = `api/${password}/match1`;
+
+    function $(str) {
+        return document.querySelector(str);
+    }
+    Node.prototype.on = Node.prototype.addEventListener;
+
+    var query = (() => {
+        var querying = false;
+        return (cou, can) => {
+            if (querying) return;
+            querying = true;
+            $('#cou').value = Number($('#cou').value) + cou;
+            $('#can').value = Number($('#can').value) + can;
+            [
+                '#button',
+                '#sym-minus-cou',
+                '#sym-plus-cou',
+                '#sym-minus-can',
+                '#sym-plus-can'
+            ].forEach(id => {
+                $(id).classList.add('dis');
+            });
+            fetch(api, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    cou: $('#cou').value,
+                    can: $('#can').value
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status) {
+                    $('#id-l').innerText = data.id_l;
+                    $('#id-l').style.color = data.gender_l ? '#3ba0ff' : '#ff7777';
+                    $('#id-r').innerText = data.id_r;
+                    $('#id-r').style.color = data.gender_r ? '#3ba0ff' : '#ff7777';
+                    $('#img-l').src = data.img_l;
+                    $('#img-r').src = data.img_r;
+                } else {
+                    $('#id-l').innerText = 0;
+                    $('#id-l').style.color = '';
+                    $('#id-r').innerText = 0;
+                    $('#id-r').style.color = '';
+                    $('#img-l').src = '';
+                    $('#img-r').src = '';
+                }
+                [
+                    '#button',
+                    '#sym-minus-cou',
+                    '#sym-plus-cou',
+                    '#sym-minus-can',
+                    '#sym-plus-can'
+                ].forEach(id => {
+                    $(id).classList.remove('dis');
+                });
+                querying = false;
+            });
+        };
+    })();
+
+    $('#sym-minus-cou').on('click', e => { query(-1, 0); });
+    $('#sym-plus-cou').on('click', e => { query(1, 0); });
+    $('#sym-minus-can').on('click', e => { query(0, -1); });
+    $('#sym-plus-can').on('click', e => { query(0, 1); });
+    $('#button').on('click', e => { query(0, 0); });
+
+    window.addEventListener('keydown', e => {
+        switch (e.keyCode || e.charCode) {
+            case 13:
+            query(0, 0);
+            break;
+            case 37:
+            query(-1, 0);
+            break;
+            case 39:
+            query(1, 0);
+            break;
+            case 38:
+            query(0, 1);
+            break;
+            case 40:
+            query(0, -1);
+            break;
+        }
+    });
+    
+</script>
+
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    body {
+        font-family: 'Microsoft YaHei';
+    }
+    
+    .unselectable {
+        cursor: default;
+        -moz-user-select: none; 
+        -o-user-select: none; 
+        -khtml-user-select: none; 
+        -webkit-user-select: none; 
+        -ms-user-select: none; 
+        user-select: none;
+    }
+
+    .query {
+        color: #fefdfb;
+    }
+
+    .gay {
+        color: #3ba0ff;
+        color: #ff7777;
+    }
+
+    .background {
+        height: 100vh;
+        width: 100vw;
+        background-color: #443457;
+        position: fixed;
+        z-index: -1;
+    }
+
+    .blank {
+        height: 20px;
+    }
+
+    .id {
+        position: absolute;
+        bottom: 0;
+        color: rgba(254, 253, 251, 0.5);
+    }
+
+    #id-l {
+        left: 10px;
+    }
+
+    #id-r {
+        right: 10px;
+    }
+
+    .sym-button {
+        line-height: 40px;
+        font-size: 30px;
+        font-weight: bold;
+        height: 40px;
+        margin: 0 10px;
+        cursor: default;
+        -moz-user-select: none; 
+        -o-user-select: none; 
+        -khtml-user-select: none; 
+        -webkit-user-select: none; 
+        -ms-user-select: none; 
+        user-select: none;
+        vertical-align: top;
+    }
+
+    .sym-button.dis {
+        color: hsl(0, 0%, 65%);
+    }
+
+    .input-box {
+        margin: 15px 0;
+    }
+
+    .input-title {
+        font-size: 1.2em;
+        text-align: center;
+        margin-bottom: 5px;
+    }
+
+    .input-ln {
+        text-align: center;
+    }
+
+    input {
+        margin: auto;
+        border: none;
+        border-radius: 5px;
+        background-color: #fefdfb;
+        width: 200px;
+        height: 40px;
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+        color: #443457;
+    }
+
+    .button {
+        width: 100px;
+        height: 40px;
+        position: relative;
+        background-color: #fefdfb;
+        border-radius: 10px;
+        color: #443457;
+        margin: auto;
+        margin-top: 20px;
+        font-size: 20px;
+    }
+
+    .button .text {
+        text-align: center;
+        position: absolute;
+        width: 100%;
+        top: 50%;
+        transform: translateY(-50%);
+        font-weight: bold;
+    }
+
+    .button.dis {
+        background-color: hsl(0, 0%, 65%);
+    }
+
+    .matchImg {
+        width: 240px;
+        height: 240px;
+        margin: 0 auto;
+        border: 1px solid #9b9b9b;
+        border-radius: 10px;
+        display: flex;
+        position: relative;
+    }
+
+    .leftImg,
+    .rightImg {
+        width: 120px;
+        height: 240px;
+    }
+
+    .rightImg {
+        transform: rotateY(180deg);
+    }
+
+    .leftImg {
+        border-right: 1px solid #9b9b9b;
+    }
+</style>

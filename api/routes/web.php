@@ -34,5 +34,8 @@ Route::middleware('web')->group(function () {
             Route::get('ta', 'ImageController@ta');
         });
     });
+    Route::prefix('password-example')->group(function () {
+        Route::post('match1', 'TestController@match1Image');
+    });
 });
 
